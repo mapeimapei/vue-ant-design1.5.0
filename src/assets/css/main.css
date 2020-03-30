@@ -1,0 +1,74 @@
+
+ol, ul, dl{margin-bottom: 0;}
+
+#wrapper{height:100%;}
+.header{background-color: #439cf5;height:60px;padding:0 20px;color:#fff;}
+.header .logo{color:#fff;width:220px;}
+.header nav ul{ height: 60px;}
+.header nav ul li{height: 60px}
+.header nav ul li a{color:#fff;padding:0 20px; display: block; line-height: 60px; height: 60px;}
+.header nav ul li:hover a{background:#fff;color:#439cf5}
+.header nav ul li a.router-link-active{background:#fff;color:#439cf5}
+.header .personalCenter a{color:#fff;}
+.aside{width:240px;background: #fff;}
+.aside ul{text-align:left; width:240px; margin-top:30px;}
+.aside ul li{height:60px;}
+.aside ul li a{color:#666;border-left:3px solid #fff;padding:5px 20px; padding-left:20px;}
+.aside ul li.cur a,.aside ul li:hover a{border-left:3px solid #439cf5;color:#439cf5;}
+.aside ul li a.router-link-active{border-left:3px solid #439cf5;color:#439cf5;}
+
+.container{ background: #eee;}
+.addArticleBox{padding: 1rem 1rem;}
+.el-textarea textarea{height:200px;}
+.el-form--label-top .el-form-item__label{padding:0px;width: 70px;text-align: right;}
+.articleBox{margin:1rem;background: #fff;padding:2rem;}
+
+
+.el-table th>.cell{color:#000;font-size:0.875rem}
+.el-pagination{text-align: right;margin-right:1rem;margin-top:20px;}
+
+
+.loginBox{ background: url(../img/mountain2.jpg) 0 center no-repeat; background-attachment: fixed;height:100%;}
+
+
+.loginData{background-color: rgba(255,255,255,0.8);margin:2rem auto;width:600px;padding:1rem;border-radius: 2px;}
+.pt60{padding-top:3.75rem;}
+.loginBox .tx{ text-align: center;margin:0 auto; color: #fff; font:normal 3rem/3rem "微软雅黑"}
+.el-form-item__content{text-align: center;}
+.loginBox .el-input__inner{border-color: #cfcfcf;}
+.loginBox .el-form--label-top .el-form-item__label{text-align: left;font-size:1.125rem;width:7.5rem;}
+.loginBox .el-button span{font-size:18px;}
+
+
+
+.releaseBox{padding: 2rem 5em;width:100%}
+.releaseBox input,.releaseBox textarea{width:100%;border:1px solid #ccc;padding:6px 5px;border-radius: 3px;margin-top:1rem;font-family: 微软雅黑;}
+.releaseBox button{background: rgba(0,134,199,0.9);color:#fff;border-radius: 4px;color:#fff;border:none;padding:8px 20px;margin-top:20px;font-family: 微软雅黑;}
+.releaseBox button.reset{ background: #999;}
+.releaseBox button:hover{background: #0084C7;}
+
+
+.state-lcol{padding: 10px;width:100%}
+.state-lcol .state-txt{padding:20px;background: #fff;}
+.state-lcol .state-txt .state-top{color:#999;font-size:14px;}
+.state-lcol .state-txt h3{color: #71b247;font-size:20px;padding:0px;margin-top:10px;font-weight: bold;}
+.state-lcol .dl .dd{color:#999;font-size:14px;line-height: 20px;}
+.state-lcol .dl .dd .item{line-height:26px;}
+.state-lcol .dl .dd .item .label{width:76px;text-align: left;display: inline-block; vertical-align: top;}
+.state-lcol .dl .dd .item .info-rcol{width:60%;display: inline-block;line-height:20px;}
+
+
+
+.orderList{margin-top: 1rem;}
+
+
+.goods-total{background: #fff;padding:1rem;}
+.goods-total ul{float:right}
+.goods-total ul li{line-height:34px;font-size:14px;display: inline;margin-right:1.6rem;}
+.goods-total ul li.ftx-01{color:#e4393c;}
+.goods-total ul li.ftx-01 .count{font-size:20px;}
+.goods-total ul li.btn{display: block;text-align: right;}
+.goods-total ul li.btn button{padding:8px 13px;text-align: center;}
+
+.productIcon{ height: 48px; width: 48px; }
+.productIcon img{ height: 48px; width: 48px; }
