@@ -1,87 +1,114 @@
 <template>
 	<div class="fx-f1">
-    <a-table :columns="columns" :dataSource="data">
-      <a slot="name" slot-scope="text">{{text}}</a>
-      <span slot="customTitle"><a-icon type="smile-o" /> Name</span>
-      <span slot="tags" slot-scope="tags">
-        <a-tag
-          v-for="tag in tags"
-          :color="tag==='loser' ? 'volcano' : (tag.length > 5 ? 'geekblue' : 'green')"
-          :key="tag"
-        >
-          {{tag.toUpperCase()}}
-        </a-tag>
-      </span>
-      <span slot="action" slot-scope="text, record">
-        <a>Invite 一 {{record.name}}</a>
-        <a-divider type="vertical" />
-        <a>Delete</a>
-        <a-divider type="vertical" />
-        <a class="ant-dropdown-link"> More actions <a-icon type="down" /> </a>
-      </span>
-    </a-table>
+    <a-table :columns="columns" :dataSource="data" :rowSelection="rowSelection" />
 	</div>
 </template>
 <script>
- const columns = [
+  
+const columns = [
     {
+      title: 'Name',
       dataIndex: 'name',
       key: 'name',
-      slots: { title: 'customTitle' },
-      scopedSlots: { customRender: 'name' },
     },
     {
       title: 'Age',
       dataIndex: 'age',
       key: 'age',
+      width: '12%',
     },
     {
       title: 'Address',
       dataIndex: 'address',
+      width: '30%',
       key: 'address',
-    },
-    {
-      title: 'Tags',
-      key: 'tags',
-      dataIndex: 'tags',
-      scopedSlots: { customRender: 'tags' },
-    },
-    {
-      title: 'Action',
-      key: 'action',
-      scopedSlots: { customRender: 'action' },
     },
   ];
 
   const data = [
     {
-      key: '1',
-      name: 'John Brown',
-      age: 32,
+      key: 1,
+      name: 'John Brown sr.',
+      age: 60,
       address: 'New York No. 1 Lake Park',
-      tags: ['nice', 'developer'],
+      children: [
+        {
+          key: 11,
+          name: 'John Brown',
+          age: 42,
+          address: 'New York No. 2 Lake Park',
+        },
+        {
+          key: 12,
+          name: 'John Brown jr.',
+          age: 30,
+          address: 'New York No. 3 Lake Park',
+          children: [
+            {
+              key: 121,
+              name: 'Jimmy Brown',
+              age: 16,
+              address: 'New York No. 3 Lake Park',
+            },
+          ],
+        },
+        {
+          key: 13,
+          name: 'Jim Green sr.',
+          age: 72,
+          address: 'London No. 1 Lake Park',
+          children: [
+            {
+              key: 131,
+              name: 'Jim Green',
+              age: 42,
+              address: 'London No. 2 Lake Park',
+              children: [
+                {
+                  key: 1311,
+                  name: 'Jim Green jr.',
+                  age: 25,
+                  address: 'London No. 3 Lake Park',
+                },
+                {
+                  key: 1312,
+                  name: 'Jimmy Green sr.',
+                  age: 18,
+                  address: 'London No. 4 Lake Park',
+                },
+              ],
+            },
+          ],
+        },
+      ],
     },
     {
-      key: '2',
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park',
-      tags: ['loser'],
-    },
-    {
-      key: '3',
+      key: 2,
       name: 'Joe Black',
       age: 32,
       address: 'Sidney No. 1 Lake Park',
-      tags: ['cool', 'teacher'],
     },
   ];
+
+  const rowSelection = {
+    onChange: (selectedRowKeys, selectedRows) => {
+      console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+    },
+    onSelect: (record, selected, selectedRows) => {
+      console.log(record, selected, selectedRows);
+    },
+    onSelectAll: (selected, selectedRows, changeRows) => {
+      console.log(selected, selectedRows, changeRows);
+    },
+  };
+  
 export default {
   name:"cart",
   data () {
     return {
         data,
         columns,
+        rowSelection,
     }
   },
 
