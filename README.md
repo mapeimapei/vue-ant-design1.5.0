@@ -1,4 +1,4 @@
-# anyuanyuan
+# awesome-python3-webapp的后台管理web项目
 
 > A Vue.js project
 
@@ -26,5 +26,5 @@ npm run e2e
 # run all tests
 npm test
 ```
+Licensed under the [MIT license](https://github.com/mapeimapei/vue-ant-design1.5.0/blob/master/LICENSE).
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
