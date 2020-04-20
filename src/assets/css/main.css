@@ -31,7 +31,7 @@ ol, ul, dl{margin-bottom: 0;}
 .loginBox{ background: url(../img/mountain2.jpg) 0 center no-repeat; background-attachment: fixed;height:100%;}
 
 
-.loginData{background-color: rgba(255,255,255,0.8);margin:2rem auto;width:600px;padding:1rem;border-radius: 2px;}
+.loginData{background-color: rgba(255,255,255,0.8); margin:2rem auto;width:600px;padding:1rem;border-radius: 2px;}
 .pt60{padding-top:3.75rem;}
 .loginBox .tx{ text-align: center;margin:0 auto; color: #fff; font:normal 3rem/3rem "微软雅黑"}
 .el-form-item__content{text-align: center;}
@@ -57,10 +57,7 @@ ol, ul, dl{margin-bottom: 0;}
 .state-lcol .dl .dd .item .label{width:76px;text-align: left;display: inline-block; vertical-align: top;}
 .state-lcol .dl .dd .item .info-rcol{width:60%;display: inline-block;line-height:20px;}
 
-
-
 .orderList{margin-top: 1rem;}
-
 
 .goods-total{background: #fff;padding:1rem;}
 .goods-total ul{float:right}
@@ -72,3 +69,6 @@ ol, ul, dl{margin-bottom: 0;}
 
 .productIcon{ height: 48px; width: 48px; }
 .productIcon img{ height: 48px; width: 48px; }
+
+.ant-spin-nested-loading > div > .ant-spin{max-height: 100% !important;}
+.ant-spin-blur::after{opacity: 0;}

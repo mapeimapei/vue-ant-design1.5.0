@@ -17,29 +17,13 @@ Vue.prototype.$axios = axios
 //import ElementUI from 'element-ui'
 import moment from 'moment'
 Vue.prototype.$moment = moment
-
-
-
 import Antd from 'ant-design-vue'
-
-
-
-
-
 import $ from 'jquery'
 import '@/assets/css/global.css'
 //import 'element-ui/lib/theme-chalk/index.css'
-
 import 'ant-design-vue/dist/antd.css'
-
 import '@/assets/css/main.css'
-
 Vue.use(Antd)
-
-
-
-
-
 Vue.use(VueBus);
 //Vue.use(ElementUI);
 Vue.config.productionTip = false

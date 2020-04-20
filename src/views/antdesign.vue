@@ -1,32 +1,28 @@
 <template>
-<div id="wrapper" class="fx fx-fdc">
-
+  <div id="wrapper" class="fx fx-fdc">
     <router-view></router-view>
-
-
-</div><!--app end-->
-
+  </div>
+  <!--app end-->
 </template>
 
 <script>
-
-import cHeader from '@/components/header'
+import cHeader from "@/components/header";
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    cHeader,
+    cHeader
   },
-  data(){
-    return{
-      menutype:"blog"
-    }
+  data() {
+    return {
+      menutype: "blog"
+    };
   },
-  computed:{},
-  watch:{},
-  methods:{},
+  computed: {},
+  watch: {},
+  methods: {},
 
-  mounted(){},
-  created(){},
-  beforDestroy(){}
-}
+  mounted() {},
+  created() {},
+  beforDestroy() {}
+};
 </script>
