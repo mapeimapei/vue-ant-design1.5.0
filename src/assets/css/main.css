@@ -72,3 +72,5 @@ ol, ul, dl{margin-bottom: 0;}
 
 .ant-spin-nested-loading > div > .ant-spin{max-height: 100% !important;}
 .ant-spin-blur::after{opacity: 0;}
+
+.ant-table-bordered .ant-table-thead > tr > th, .ant-table-bordered .ant-table-tbody > tr > td{vertical-align:middle !important}

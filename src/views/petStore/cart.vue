@@ -3,7 +3,7 @@
     <a-spin :spinning="spinning" size="large">
       <div style="margin-bottom: 16px">
         <a-button type="primary" :disabled="!selectedRowKeys.length" @click="makeOrderFn">提交订单</a-button>
-        <a-button type="primary" :disabled="!selectedRowKeys.length" @click="deletFn">删除选中的商品</a-button>
+        <a-button @click="deletSelected()" type="primary" :disabled="!selectedRowKeys.length">删除选中的商品</a-button>
         <span style="margin-left: 8px">
           <a-button type="primary" :disabled="!cartList.length" @click="clearFn">清空购物车</a-button>
         </span>
@@ -14,6 +14,13 @@
         :pagination="pagination"
         :rowSelection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }"
       >
+        <a-table-column title="图片" width="48px">
+          <template slot-scope="text,record">
+            <div class="productIcon">
+              <img :src="$ut.srcUrl + record.image" />
+            </div>
+          </template>
+        </a-table-column>
         <a-table-column title="名称" data-index="cname" key="cname" />
         <a-table-column title="分类" data-index="category" key="category" />
         <a-table-column title="描述" data-index="descn" key="descn" />
@@ -28,7 +35,15 @@
         </a-table-column>
         <a-table-column title="操作" key="operation">
           <template slot-scope="text, record">
-            <a href="javascript:;" @click="deleteFn(record.productid)">删除</a>
+            <a-popconfirm
+              title="此操作将永久删除该记录, 是否继续?"
+              okText="确认"
+              cancelText="取消"
+              @confirm="confirmDeleteFn(record.productid)"
+              @cancel="cancel"
+            >
+              <a href="#">删除</a>
+            </a-popconfirm>
           </template>
         </a-table-column>
       </a-table>
@@ -49,137 +64,155 @@ export default {
         pageSize: 5
       },
       selectedRowKeys: [],
-      //selectedRows:[],
-      ModalText:'此操作将永久删除该记录, 是否继续?',
+      ModalText: "此操作将永久删除该记录, 是否继续?",
+      productList:[],
     };
   },
 
   computed: {
-    ...mapState(["user"]),
+    ...mapState(["user"])
   },
 
   methods: {
-    //复选框
-    onSelectChange(keys,rows) {
-
-      console.log(keys,rows)
-
-      this.selectedRowKeys = keys
-      this.productids = []
-      rows.forEach((item)=>{
-         this.productids.push(item.productid)
-      })
-    },
-
-
-    //生成订单
-    makeOrderFn(){
-      let apiUrl = "/addOrder"
-      this.spinning != this.spinning;
-      let obj = {
-        "user_id":this.user.id,
-        "productList":[...this.selectedRowKeys]
-      }
-      console.log("this.selectedRowKeys",this.selectedRowKeys)
-      this.$axios.post(apiUrl, JSON.stringify(obj)).then((data) => {
-        this.spinning = this.spinning;
-        if(!!data && data.resultCode ==="20000"){
-          this.$notification.success({
-            message: '订单生成成功。',
-          })
-          this.$router.push({path: 'ordersDetails', query:{orderid: data.result.orderid}})
-        }else{
-          this.$notification.warning({
-            message: '订单生成失败。',
-          });
-        }
-      }).catch((err) => {
-        this.spinning = this.spinning;
-        this.$notification.warning({
-          message: '订单生成接口报错。',
-        });
+    //点击删除选中弹框
+    deletSelected() {
+      let _this = this
+      this.$confirm({
+        title: "此操作将永久删除该记录, 是否继续?",
+        content: h => <div style="color:red;">删除之后不能返回</div>,
+        okText: "确认",
+        okType: "primary",
+        cancelText: "取消",
+        onOk() {
+          // console.log("OK");
+          _this.deletFn();   //调用选中删除接口
+        },
+        onCancel() {
+          // console.log("Cancel");
+        },
+        class: "test"
       });
     },
 
-    //清空
-    clearFn(){
-      let apiUrl = "/deleteCart";
+    //复选框
+    onSelectChange(keys, rows) {
+      // console.log(keys,rows)
+      this.selectedRowKeys = keys;
+      this.productids = [];
+      rows.forEach(item => {
+        this.productids.push(item.productid);
+        this.productList.push(item)
+      });
+    },
+
+    //生成订单
+    makeOrderFn() {
+      // console.log()
+      let apiUrl = "/addOrder";
       this.spinning != this.spinning;
       let obj = {
-        productids:[],
-        user_id: this.user.id
+        user_id: this.user.id,
+        productList: [...this.productList]
       };
-      this.cartList.forEach((item)=>{
-        obj.productids.push(item.productid)
-      })
       this.$axios
         .post(apiUrl, JSON.stringify(obj))
         .then(data => {
           this.spinning = this.spinning;
           if (!!data && data.resultCode === "20000") {
-            this.cartList=[];
-            this.getCartList()
             this.$notification.success({
-              message: "删除成功。"
+              message: "订单生成成功。"
+            });
+            this.$router.push({
+              path: "ordersDetails",
+              query: { orderid: data.result.orderid }
             });
           } else {
             this.$notification.warning({
-              message: "删除订单列表失败。",
+              message: "订单生成失败。"
             });
           }
         })
         .catch(err => {
           this.spinning = this.spinning;
           this.$notification.warning({
-            message: "删除订单列表接口报错。",
+            message: "订单生成接口报错。"
           });
         });
     },
 
-    //选中删除
-    deletFn(){
-
-
+    //清空
+    clearFn() {
       let apiUrl = "/deleteCart";
       this.spinning != this.spinning;
       let obj = {
-        productids:[...this.productids],
+        productids: [],
         user_id: this.user.id
       };
+      this.cartList.forEach(item => {
+        obj.productids.push(item.productid);
+      });
       this.$axios
         .post(apiUrl, JSON.stringify(obj))
         .then(data => {
           this.spinning = this.spinning;
           if (!!data && data.resultCode === "20000") {
-            this.selectedRowKeys = []
+            this.cartList = [];
             this.getCartList();
             this.$notification.success({
               message: "删除成功。"
             });
           } else {
             this.$notification.warning({
-              message: "删除订单列表失败。",
+              message: "删除订单列表失败。"
             });
           }
         })
         .catch(err => {
           this.spinning = this.spinning;
           this.$notification.warning({
-            message: "删除订单列表接口报错。",
+            message: "删除订单列表接口报错。"
           });
         });
     },
 
-
-
-
-
-    //每行后面的删除
-    deleteFn(value){
+    //选中删除
+    deletFn() {
       let apiUrl = "/deleteCart";
       this.spinning != this.spinning;
       let obj = {
-        productids:[value],
+        productids: [...this.productids],
+        user_id: this.user.id
+      };
+      this.$axios
+        .post(apiUrl, JSON.stringify(obj))
+        .then(data => {
+          this.spinning = this.spinning;
+          if (!!data && data.resultCode === "20000") {
+            this.selectedRowKeys = [];
+            this.getCartList();
+            this.$notification.success({
+              message: "删除成功。"
+            });
+          } else {
+            this.$notification.warning({
+              message: "删除订单列表失败。"
+            });
+          }
+        })
+        .catch(err => {
+          this.spinning = this.spinning;
+          this.$notification.warning({
+            message: "删除订单列表接口报错。"
+          });
+        });
+    },
+
+    //每行后面的删除
+    confirmDeleteFn(value) {
+      let apiUrl = "/deleteCart";
+      this.spinning != this.spinning;
+      let obj = {
+        productids: [value],
         user_id: this.user.id
       };
       this.$axios
@@ -206,6 +239,8 @@ export default {
           });
         });
     },
+    cancel(){
+    },
 
     //获取购物车列表
     getCartList() {
@@ -216,9 +251,9 @@ export default {
         .then(data => {
           this.spinning = this.spinning;
           if (!!data && data.resultCode === "20000") {
-            data.result.forEach((item,index) =>{
-              item.key = index
-            })
+            data.result.forEach((item, index) => {
+              item.key = index;
+            });
             this.cartList = data.result;
           } else {
             this.$notify({

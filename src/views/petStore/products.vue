@@ -2,13 +2,20 @@
   <div class="articleBox fx-f1">
     <a-spin :spinning="spinning" size="large">
       <a-table bordered :dataSource="productList" :pagination="pagination">
+        <a-table-column title="图片" width="48px">
+          <template slot-scope="text,record">
+            <div class="productIcon">
+              <img :src="$ut.srcUrl + record.image" />
+            </div>
+          </template>
+        </a-table-column>
         <a-table-column title="名称" data-index="cname" key="cname" />
         <a-table-column title="分类" data-index="category" key="category" />
         <a-table-column title="单价(￥)" data-index="listprice" key="listprice" />
         <a-table-column title="描述" data-index="descn" key="descn" />
         <a-table-column title="数量">
           <template slot-scope="text,record">
-            <a-input-number :min="1" v-model="record.quantity"/>
+            <a-input-number :min="1" v-model="record.quantity" />
           </template>
         </a-table-column>
         <a-table-column title="操作" key="operation">
@@ -31,7 +38,7 @@ export default {
         pageSize: 8
       },
       productList: [],
-      spinning: false,
+      spinning: false
     };
   },
 
@@ -41,49 +48,55 @@ export default {
 
   methods: {
     //生成订单
-    createOrders(value){
-        // console.log("createOrders",value)
-        let apiUrl = '/addOrder'
-        this.spinning != this.spinning;
-        let obj = {
-          productList:[value],
-          user_id:this.user.id
-        }
-        this.$axios.post(apiUrl, JSON.stringify(obj)).then(data =>{
+    createOrders(value) {
+      // console.log("createOrders",value)
+      let apiUrl = "/addOrder";
+      this.spinning != this.spinning;
+      let obj = {
+        productList: [value],
+        user_id: this.user.id
+      };
+      this.$axios
+        .post(apiUrl, JSON.stringify(obj))
+        .then(data => {
           this.spinning != this.spinning;
-          if(!!data && data.resultCode ==="20000"){
-              this.$router.push({path:"/petStore/ordersDetails",query:{"orderid":data.result.orderid}})
+          if (!!data && data.resultCode === "20000") {
+            this.$router.push({
+              path: "/petStore/ordersDetails",
+              query: { orderid: data.result.orderid }
+            });
           } else {
             this.$notification.warning({
               message: "生成订单失败",
               type: "warning"
             });
           }
-        }).catch(err => {
+        })
+        .catch(err => {
           this.spinning = this.spinning;
           this.$notification.error({
             message: "生成订单接口报错。",
             type: "warning"
           });
         });
-
     },
 
-
     //加入购物车
-    addCartFn(value){
+    addCartFn(value) {
       let apiUrl = "/addCart";
       this.spinning != this.spinning;
-      let obj={
-        productid:value.productid,
-        quantity:value.quantity,
-        user_id:this.user.id
-      }
-      this.$axios.post(apiUrl, JSON.stringify(obj)).then(data =>{
+      let obj = {
+        productid: value.productid,
+        quantity: value.quantity,
+        user_id: this.user.id
+      };
+      this.$axios
+        .post(apiUrl, JSON.stringify(obj))
+        .then(data => {
           this.spinning != this.spinning;
-          if(!!data && data.resultCode ==="20000"){
+          if (!!data && data.resultCode === "20000") {
             // this.productList = data.result
-            this.getProducts()
+            this.getProducts();
             this.$notification.success({
               message: "加入购物车",
               type: "success"
@@ -94,7 +107,8 @@ export default {
               type: "warning"
             });
           }
-        }).catch(err => {
+        })
+        .catch(err => {
           this.spinning = this.spinning;
           this.$notification.error({
             message: "加入购物车接口报错。",
@@ -102,7 +116,6 @@ export default {
           });
         });
     },
-
 
     //获取商品列表
     getProducts() {
@@ -115,10 +128,9 @@ export default {
           if (!!data && data.resultCode === "20000") {
             data.result.forEach((item, index) => {
               item.key = index;
-              item.quantity = 1
+              item.quantity = 1;
             });
             this.productList = data.result;
-            // console.log("this.productList", JSON.stringify(this.productList));
           } else {
             this.$notify({
               message: "获取商品列表失败",
