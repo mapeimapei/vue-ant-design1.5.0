@@ -30,9 +30,34 @@ export default {
   watch:{},
   methods:{
     ...mapMutations(['setUser','setToken']),
+
     //登出
     logout(){
-      console.log("登出")
+      let _this = this
+      this.$confirm({
+        title: '提示',
+        content: '确定登出, 是否继续?',
+        okText: '确定',
+        cancelText: '取消',
+        type: 'warning',
+        onOk() {
+          _this.setUser(null)
+          _this.setToken(null)
+          localStorage.removeItem("user")
+          localStorage.removeItem("token")
+          if(_this.$ut.dev){
+            _this.$router.push("/login")
+          }else{
+            window.location.href="/"
+          }
+        },
+        onCancel() {
+        },
+      });
+    },
+
+    changeMenuFn(type){
+      this.$emit("changemenu",type)
     },
 
 
